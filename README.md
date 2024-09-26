@@ -1,5 +1,5 @@
-[![](https://img.shields.io/static/v1?logo=python&label=Python&message=3.6%20|%203.7%20|%203.8&color=306998&logoColor=white)](https://www.djangoproject.com/)
-[![](https://img.shields.io/static/v1?logo=django&label=Django&message=2.2%20|%203.0%20|%203.1&color=0C4B33&logoColor=white)](https://www.djangoproject.com/)
+[![](https://img.shields.io/static/v1?logo=python&label=Python&message=3.6%20|%203.7%20|%203.8%20|%203.9&color=306998&logoColor=white)](https://www.djangoproject.com/)
+[![](https://img.shields.io/static/v1?logo=django&label=Django&message=2.2%20|%203.0%20|%203.1%20|%203.2&color=0C4B33&logoColor=white)](https://www.djangoproject.com/)
 
 [![](https://codecov.io/gh/Terralego/django-terra-geocrud/branch/master/graph/badge.svg)](https://codecov.io/gh/Terralego/django-terra-geocrud)
 [![](https://api.codeclimate.com/v1/badges/633c620b6dcfc0e18df2/maintainability)](https://codeclimate.com/github/Terralego/django-terra-geocrud/maintainability)
@@ -16,7 +16,7 @@ Backend API configurator for Geographic CRUD. Based on **django-geostore**
 
 ## Requirements
 
-* django 2.2 / 3.0 / 3.1
+* django 2.2+
 * geodjango enabled with postgres 10+ / postgis 2.4+ (pgrouting optionnal)
 
 ## DEVELOPMENT

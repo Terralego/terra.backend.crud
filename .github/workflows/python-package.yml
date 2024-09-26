@@ -16,28 +16,10 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        python-version: [ 3.6, 3.8 ]
-        django-version: [ 2.2.*, 3.1.* ]
+        python-version: [ 3.6, 3.9 ]
+        django-version: [ 2.2.*, 3.2.* ]
         postgres: [ 'postgis/postgis:10-2.5', 'pgrouting/pgrouting:10-2.5-2.6.3' ]
-        experimental: [false]
-        include:
-          #TODO: Fix when github action do not show failed for the workflow with continue-on-error
-          #- django-version: dev
-          #  experimental: true
-          #  python-version: 3.8
-          #  postgres: 'postgis/postgis:10-2.5'
-          #- django-version: dev
-          #  experimental: true
-          #  python-version: 3.8
-          #  postgres: 'pgrouting/pgrouting:10-2.5-2.6.3'
-          - django-version: 3.2a1
-            experimental: true
-            python-version: 3.8
-            postgres: 'postgis/postgis:10-2.5'
-          - django-version: 3.2a1
-            experimental: true
-            python-version: 3.8
-            postgres: 'pgrouting/pgrouting:10-2.5-2.6.3'
+
     services:
       postgres:
         image: ${{ matrix.postgres }}
@@ -51,9 +33,9 @@ jobs:
         options: >-
           --health-cmd pg_isready
 
-
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -64,25 +46,28 @@ jobs:
         sudo apt-get update
         sudo apt-get -y install libproj-dev binutils gdal-bin libgdal-dev
         python -m pip install --upgrade pip setuptools wheel
+
         if [[ '${{ matrix.postgres }}' == 'pgrouting/pgrouting:10-2.5-2.6.3' ]]; then
           pip install .[dev,routing] -U
         else
           pip install .[dev] -U
         fi
+
         if [[ ${{ matrix.django-version }} == dev ]]; then
           pip install -e git+https://github.com/django/django@master#egg=django;
         else
           pip install Django==${{ matrix.django-version }} -U;
         fi
+
         if [[ ${{ matrix.django-version }} == 2.2.* ]]; then
           # https://github.com/psycopg/psycopg2/issues/1293
           pip install psycopg2==2.8.*
-        else
-          pip install psycopg2
         fi
-    - name: Check migration
+
+    - name: Check pending migrations
       run: |
         ./manage.py makemigrations --check
+
     - name: Test with coverage
       run: |
         if [[ '${{ matrix.postgres }}' == 'postgis/postgis:10-2.5' ]]; then
